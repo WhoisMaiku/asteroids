@@ -34,7 +34,9 @@ The game loop calls `updatable.update(dt)` and `drawable.draw(screen)` each fram
 - **`main.py`** — Game loop: initializes pygame, creates sprite groups, instantiates objects, runs 60 FPS loop with delta-time
 - **`circleshape.py`** — Abstract base class for all game entities (position, velocity, radius; abstract `draw()` and `update(dt)`)
 - **`player.py`** — Player spaceship: WASD controls, triangle rendering, rotation-based movement using `pygame.Vector2`
-- **`constants.py`** — All tunable values (screen size 1280×720, player radius, speeds, etc.)
+- **`asteroid.py`** — Asteroid entity: white circle that drifts in a straight line each frame
+- **`asteroidfield.py`** — Spawner/manager (extends `pygame.sprite.Sprite` directly, not `CircleShape`); periodically spawns asteroids of random size from random screen edges; only joins `updatable`, not `drawable`
+- **`constants.py`** — All tunable values (screen size 1280×720, player radius, speeds, asteroid sizing/spawn rate, etc.)
 - **`logger.py`** — Frame-by-frame game state logger; introspects the call stack to extract sprite state, writes JSONL to `game_state.jsonl` (stops after 16s)
 
 ### Adding New Game Entities
@@ -43,4 +45,10 @@ The game loop calls `updatable.update(dt)` and `drawable.draw(screen)` each fram
 2. Implement `draw(self)` and `update(self, dt)`
 3. Set `MyClass.containers = (updatable, drawable)` before instantiation in `main.py`
 
-The project currently has player movement/rotation but no asteroids, bullets, or collision detection yet.
+> **Note:** Manager/spawner objects (like `AsteroidField`) that aren't themselves drawn can extend `pygame.sprite.Sprite` directly and only join `updatable`.
+
+### Current State
+
+- Player movement and rotation (WASD)
+- Asteroids spawning from screen edges via `AsteroidField`
+- Still to add: bullets, shooting mechanic, collision detection, scoring
