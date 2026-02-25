@@ -1,9 +1,10 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
-from logger import log_state
+from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+import sys
 
 def main():
     pygame.init()
@@ -46,6 +47,12 @@ def main():
 
         # Advance all game objects by the elapsed time since the last frame
         updatable.update(dt)
+
+        for ast in asteroids:
+            if ast.collides_with(player):
+                log_event("player_hit")
+                print("Game Over!")
+                sys.exit()
 
         # Draw every visible object onto the screen surface
         for obj in drawable:
