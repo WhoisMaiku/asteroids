@@ -15,7 +15,7 @@ def main():
     updatable = pygame.sprite.Group()   # receives update(dt) calls each frame
     drawable = pygame.sprite.Group()    # receives draw(screen) calls each frame
     asteroids = pygame.sprite.Group()   # tracked separately for collision detection
-    shots = pygame.sprite.Group()
+    shots = pygame.sprite.Group()       # tracked separately for shot-asteroid collision detection
 
     # Register groups before instantiation and auto-joins the object into whichever groups are listed there.
     Player.containers = (updatable, drawable)
