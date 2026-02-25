@@ -1,10 +1,11 @@
 import pygame
+import sys
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-import sys
+from shot import Shot
 
 def main():
     pygame.init()
@@ -14,11 +15,13 @@ def main():
     updatable = pygame.sprite.Group()   # receives update(dt) calls each frame
     drawable = pygame.sprite.Group()    # receives draw(screen) calls each frame
     asteroids = pygame.sprite.Group()   # tracked separately for collision detection
+    shots = pygame.sprite.Group()
 
     # Register groups before instantiation and auto-joins the object into whichever groups are listed there.
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)  # field only needs update; it spawns drawables itself
+    Shot.containers = (shots, drawable, updatable)
 
     # Spawn the asteroid field and the player at the center of the screen
     asteroid_field = AsteroidField()
