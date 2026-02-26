@@ -36,7 +36,8 @@ The game loop calls `updatable.update(dt)` and `drawable.draw(screen)` each fram
 - **`player.py`** — Player spaceship: WASD controls, triangle rendering, rotation-based movement using `pygame.Vector2`
 - **`asteroid.py`** — Asteroid entity: white circle that drifts in a straight line each frame
 - **`asteroidfield.py`** — Spawner/manager (extends `pygame.sprite.Sprite` directly, not `CircleShape`); periodically spawns asteroids of random size from random screen edges; only joins `updatable`, not `drawable`
-- **`constants.py`** — All tunable values (screen size 1280×720, player radius, speeds, asteroid sizing/spawn rate, etc.)
+- **`shot.py`** — Bullet entity: small white circle fired by the player; travels in a straight line at `PLAYER_SHOOT_SPEED`; auto-registers into `shots` and `drawable`/`updatable` groups
+- **`constants.py`** — All tunable values (screen size 1280×720, player radius, speeds, asteroid sizing/spawn rate, shot radius/speed, etc.)
 - **`logger.py`** — Frame-by-frame game state logger; introspects the call stack to extract sprite state, writes JSONL to `game_state.jsonl` (stops after 16s)
 
 ### Adding New Game Entities
@@ -47,8 +48,17 @@ The game loop calls `updatable.update(dt)` and `drawable.draw(screen)` each fram
 
 > **Note:** Manager/spawner objects (like `AsteroidField`) that aren't themselves drawn can extend `pygame.sprite.Sprite` directly and only join `updatable`.
 
+## Learning Style
+
+Follow the Learning output style strictly:
+- For tasks generating 20+ lines involving design decisions, business logic, or key algorithms: build the scaffolding, place a `TODO(human)` at the meaningful decision point, then present a **"Learn by Doing"** request — do NOT implement that section yourself.
+- Always wrap code explanations in insight blocks before and after writing code.
+- Wait for the human's implementation before proceeding after a Learn by Doing request.
+
 ### Current State
 
 - Player movement and rotation (WASD)
 - Asteroids spawning from screen edges via `AsteroidField`
-- Still to add: bullets, shooting mechanic, collision detection, scoring
+- Shooting mechanic: SPACE fires bullets (`Shot` instances) in the player's facing direction
+- Collision detection: asteroid–player collision ends the game (`sys.exit()`)
+- Still to add: shot–asteroid collision (split/destroy asteroids), scoring, lives/respawn, game-over screen
