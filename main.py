@@ -51,12 +51,20 @@ def main():
         # Advance all game objects by the elapsed time since the last frame
         updatable.update(dt)
 
+        # Check if an asteroid is colliding with the player
         for ast in asteroids:
             if ast.collides_with(player):
                 log_event("player_hit")
                 print("Game Over!")
                 sys.exit()
-
+            
+            # Check if a shot is colliding with an asteroid and destroys it
+            for shot in shots:
+                if shot.collides_with(ast):
+                    log_event("asteroid_shot")
+                    ast.kill()
+                    shot.kill()
+        
         # Draw every visible object onto the screen surface
         for obj in drawable:
             obj.draw(screen)
