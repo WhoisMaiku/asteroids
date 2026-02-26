@@ -62,7 +62,7 @@ def main():
             for shot in shots:
                 if shot.collides_with(ast):
                     log_event("asteroid_shot")
-                    ast.kill()
+                    ast.split()
                     shot.kill()
         
         # Draw every visible object onto the screen surface
