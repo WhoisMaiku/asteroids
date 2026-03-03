@@ -31,20 +31,41 @@ class Player(CircleShape):
         keys = pygame.key.get_pressed()
         self.shot_cooldown_timer -= dt
 
-        if keys[pygame.K_w]:
+        # Step 1: Detect which key set has any input this frame.
+        wasd_active = keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]
+        arrow_active = keys[pygame.K_UP] or keys[pygame.K_DOWN] or keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]
+
+        # Allows the user to use WASD or the Arrow keys to control the ship.
+        # Because this implementation favours WASD, it creates a one way interaction where players 
+        # using arrow keys can tap WASD to control the ship in unintended ways. 
+        if wasd_active:
+            forward = keys[pygame.K_w]
+            backward = keys[pygame.K_s]
+            left = keys[pygame.K_a]
+            right = keys[pygame.K_d]
+        elif arrow_active:
+            forward = keys[pygame.K_UP]
+            backward = keys[pygame.K_DOWN]
+            left = keys[pygame.K_LEFT]
+            right = keys[pygame.K_RIGHT]
+        else:
+            forward = False 
+            backward = False
+            left = False
+            right = False
+
+        # Step 3: Apply unified action variables.
+        if forward:
             self.move(dt)
-
-        if keys[pygame.K_s]:
-            self.move((dt * -1))
-
-        if keys[pygame.K_a]:
-            self.rotate((dt * -1))
-
-        if keys[pygame.K_d]:
+        if backward:
+            self.move(dt * -1)
+        if left:
+            self.rotate(dt * -1)
+        if right:
             self.rotate(dt)
 
         if keys[pygame.K_SPACE]:
-                self.shoot()
+            self.shoot()
 
     def move(self, dt):
         # Rotate a downward unit vector by the player's heading to get the movement direction,

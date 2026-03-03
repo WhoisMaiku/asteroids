@@ -24,7 +24,7 @@ def main():
     Shot.containers = (shots, drawable, updatable)
 
     # Spawn the asteroid field and the player at the center of the screen
-    asteroid_field = AsteroidField()
+    # asteroid_field = AsteroidField()
     player = Player(x = (SCREEN_WIDTH / 2), y = (SCREEN_HEIGHT /2))
 
     clock = pygame.time.Clock()
