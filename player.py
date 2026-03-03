@@ -7,7 +7,8 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0  # degrees; 0 points down, increases clockwise
-        self.shot_cooldown_timer = 0 
+        self.shot_cooldown_timer = 0
+        self.active_scheme = None  # tracks which control scheme is currently locked in
 
     def triangle(self):
         # Computes the 3 world-space vertices of the ship triangle from the current rotation.
@@ -31,30 +32,39 @@ class Player(CircleShape):
         keys = pygame.key.get_pressed()
         self.shot_cooldown_timer -= dt
 
-        # Step 1: Detect which key set has any input this frame.
+        # Detect which key set has any input this frame.
         wasd_active = keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]
         arrow_active = keys[pygame.K_UP] or keys[pygame.K_DOWN] or keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]
 
-        # Allows the user to use WASD or the Arrow keys to control the ship.
-        # Because this implementation favours WASD, it creates a one way interaction where players 
-        # using arrow keys can tap WASD to control the ship in unintended ways. 
-        if wasd_active:
+        # Check if the current control scheme needs to change
+        if (self.active_scheme == "wasd" and wasd_active is False) or (self.active_scheme == "arrow" and arrow_active is False):
+            self.active_scheme = None
+    
+        # Lock the current control scheme
+        if self.active_scheme == None:
+            if wasd_active:
+                self.active_scheme = "wasd"
+            if arrow_active:
+                self.active_scheme = "arrow"
+        
+        # Bind Movement to the current control scheme, or set to False if no control scheme is active
+        if self.active_scheme == "wasd":
             forward = keys[pygame.K_w]
             backward = keys[pygame.K_s]
             left = keys[pygame.K_a]
             right = keys[pygame.K_d]
-        elif arrow_active:
+        elif self.active_scheme == "arrow":
             forward = keys[pygame.K_UP]
             backward = keys[pygame.K_DOWN]
             left = keys[pygame.K_LEFT]
             right = keys[pygame.K_RIGHT]
         else:
-            forward = False 
+            forward = False
             backward = False
             left = False
             right = False
 
-        # Step 3: Apply unified action variables.
+        # Apply unified action variables.
         if forward:
             self.move(dt)
         if backward:
