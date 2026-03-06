@@ -18,3 +18,6 @@ ASTEROID_MAX_RADIUS = ASTEROID_MIN_RADIUS * ASTEROID_KINDS
 
 # Shots — size in pixels
 SHOT_RADIUS = 5
+
+# Scoring
+ASTEROID_SCORE = 100  # points awarded for destroying the smallest asteroid

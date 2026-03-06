@@ -23,7 +23,7 @@ class Asteroid(CircleShape):
 
         # Check if the asteroid is already at the smallest size. If so, it doesn't split
         if self.radius <= ASTEROID_MIN_RADIUS:
-            return
+            return True  # terminal kill → award score
 
         # Split the asteroid into two smaller asteroids with a random vector and speed them up.
         log_event("asteroid_split")

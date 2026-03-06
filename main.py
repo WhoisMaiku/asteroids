@@ -1,6 +1,6 @@
 import pygame
 import sys
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, ASTEROID_SCORE
 from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
@@ -26,6 +26,9 @@ def main():
     # Spawn the asteroid field and the player at the center of the screen
     asteroid_field = AsteroidField()
     player = Player(x = (SCREEN_WIDTH / 2), y = (SCREEN_HEIGHT /2))
+
+    score = 0
+    font = pygame.font.Font(None, 36)
 
     clock = pygame.time.Clock()
     dt = 0  # delta-time in seconds; 0 on the first frame
@@ -62,12 +65,17 @@ def main():
             for shot in shots:
                 if shot.collides_with(ast):
                     log_event("asteroid_shot")
-                    ast.split()
+                    if ast.split():
+                        score += ASTEROID_SCORE
                     shot.kill()
         
         # Draw every visible object onto the screen surface
         for obj in drawable:
             obj.draw(screen)
+
+        # Render score overlay
+        score_text = font.render(f"Score: {score}", True, "white")
+        screen.blit(score_text, (10, 10))
 
         # Push the completed frame to the display
         pygame.display.flip()
