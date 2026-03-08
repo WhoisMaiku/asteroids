@@ -28,7 +28,7 @@ def main():
     player = Player(x = (SCREEN_WIDTH / 2), y = (SCREEN_HEIGHT /2))
 
     score = 0
-    font = pygame.font.Font(None, 36)
+    font = pygame.font.Font("fonts/PressStart2P-Regular.ttf", 16)
 
     clock = pygame.time.Clock()
     dt = 0  # delta-time in seconds; 0 on the first frame
