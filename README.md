@@ -22,18 +22,21 @@ Requires Python 3.13+ and pygame 2.6.1 (installed via `uv sync`).
 
 ## Controls
 
+Both WASD and arrow keys are supported. Only one scheme can be active at a time — whichever key set you press first locks in until you release all keys.
+
 | Key | Action |
 |-----|--------|
-| `W` | Thrust forward |
-| `S` | Thrust backward |
-| `A` | Rotate left |
-| `D` | Rotate right |
+| `W` / `↑` | Thrust forward |
+| `S` / `↓` | Thrust backward |
+| `A` / `←` | Rotate left |
+| `D` / `→` | Rotate right |
 | `SPACE` | Fire |
 
 ## Gameplay
 
 - Shoot asteroids to destroy them — large asteroids split into two smaller, faster ones
-- Asteroids that reach minimum size are destroyed outright when hit
+- Asteroids that reach minimum size are destroyed outright when hit; each kill earns **100 points**
+- Your score is displayed in the top-left corner in an arcade font
 - Flying into an asteroid ends the game
 
 ## Architecture
@@ -72,7 +75,6 @@ The game loop calls `updatable.update(dt)` and `drawable.draw(screen)` each fram
 
 | Idea | Description |
 |------|-------------|
-| **Scoring system** | Award points for destroying asteroids — more for smaller ones. Display score on screen and track a high score. |
 | **Multiple lives & respawning** | Give the player 3 lives; respawn with brief invincibility after each death instead of immediately ending the game. |
 | **Explosion effects** | Spawn particle fragments when an asteroid is destroyed to give hits visual feedback. |
 | **Player acceleration** | Replace instant velocity with gradual thrust and drag so the ship feels more physics-driven. |
