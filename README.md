@@ -37,7 +37,7 @@ Both WASD and arrow keys are supported. Only one scheme can be active at a time 
 - Shoot asteroids to destroy them — large asteroids split into two smaller, faster ones
 - Asteroids that reach minimum size are destroyed outright when hit; each kill earns **100 points**
 - Your score is displayed in the top-left corner in an arcade font
-- Flying into an asteroid ends the game
+- Flying into an asteroid triggers a Game Over screen showing your final score, with options to try again or exit
 
 ## Architecture
 
@@ -54,7 +54,7 @@ The game loop calls `updatable.update(dt)` and `drawable.draw(screen)` each fram
 
 | File | Purpose |
 |------|---------|
-| `main.py` | Game loop, sprite group setup, object instantiation |
+| `main.py` | Game loop, sprite group setup, object instantiation, game-over screen and reset |
 | `circleshape.py` | Abstract base class for all entities |
 | `player.py` | Player ship: rendering, rotation, WASD movement, rate-limited shooting |
 | `asteroid.py` | Asteroid entity: drifts in a straight line, splits into two on hit |
